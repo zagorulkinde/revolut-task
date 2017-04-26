@@ -1,0 +1,40 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="Dmitry" id="changelog-1.0">
+        <createTable tableName="accounts">
+            <column name="id" type="long" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="balance" type="decimal" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstname" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="lastname" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="accounts">
+            <column name="firstname" value="Dmitry"/>
+            <column name="lastname" value="Ivanov"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="firstname" value="Pasha"/>
+            <column name="lastname" value="Mihailov"/>
+            <column name="balance" value="100"/>
+        </insert>
+
+        <insert tableName="accounts">
+            <column name="firstname" value="Tamara"/>
+            <column name="lastname" value="Konstantinova"/>
+            <column name="balance" value="50"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
