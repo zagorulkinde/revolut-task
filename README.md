@@ -1,5 +1,5 @@
 # revolut-task
-Simple rest http service (Jetty, Jersey, MyBatis, Swagger, RestEasy)
+Simple rest http service (Jetty, Jersey, MyBatis, Liquibase, Swagger, RestEasy)
 
 ### How to use?
 
