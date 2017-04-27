@@ -17,7 +17,8 @@
         <swager-jersey-version>1.5.0</swager-jersey-version>
         <jersey-version>2.25.1</jersey-version>
         <logback-version>1.1.9</logback-version>
-        <resteasy.version>3.1.2.Final</resteasy.version>
+        <resteasy-version>3.1.2.Final</resteasy-version>
+        <mockito-version>2.7.22</mockito-version>
     </properties>
 
     <build>
@@ -29,6 +30,25 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>/src/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -99,12 +119,12 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-            <version>${resteasy.version}</version>
+            <version>${resteasy-version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-servlet-initializer</artifactId>
-            <version>${resteasy.version}</version>
+            <version>${resteasy-version}</version>
         </dependency>
         <!-- Testing -->
         <dependency>
@@ -112,6 +132,11 @@
             <artifactId>testng</artifactId>
             <version>${testing-version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-version}</version>
         </dependency>
     </dependencies>
 

@@ -1,55 +1,49 @@
 package my.interviews.controller;
 
-import java.math.BigDecimal;
-import java.util.concurrent.locks.ReentrantLock;
-
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import my.interviews.dao.Account;
 import my.interviews.dao.AccountMapper;
 import my.interviews.service.AccountService;
+import my.interviews.service.TransferMoney;
 import my.interviews.service.TransferService;
-import my.interviews.service.TransferServiceFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.math.BigDecimal;
 
 @Path("money-transfer")
 @Api("money-transfer")
 public class TransferMoneyController {
   private final AccountMapper accountMapper = AccountService.getMapper();
+  private final TransferMoney transferMoney = new TransferMoney(accountMapper);
 
   @ApiOperation(value = "Get account", notes = "Returns account by id", response = Account.class)
   @Path("getClient/{id}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Account getClient(@PathParam("id") long id) {
-    return accountMapper.getAccount(id);
+    Account account = accountMapper.getAccount(id);
+
+    if (account == null) {
+      throw new IllegalArgumentException("Account with id:" + id + "could't be found");
+    }
+
+    return account;
   }
 
-  @ApiOperation(value = "Transfer money between client", notes = "Returns param with balance", response = Account.class)
+  @ApiOperation(value = "Transfer money between client", notes = "ok or error", response = String.class)
   @Path("transfer")
   @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  public Account transferMoney(
+  @Produces(MediaType.APPLICATION_FORM_URLENCODED)
+  public String transferMoney(
       @FormParam("idFrom") long idFrom,
       @FormParam("idTo") long idTo, @FormParam("amount") BigDecimal amount) {
 
-    Account fromAccount = accountMapper.getAccount(idFrom);
-    Account toAccount = accountMapper.getAccount(idTo);
-
-    TransferService transferService = TransferServiceFactory.getTransfer(fromAccount, toAccount);
+    TransferService transferService = transferMoney.getTransfer(idFrom, idTo);
     transferService.transferMoney(amount);
 
-    accountMapper.updateBalance(fromAccount);
-    accountMapper.updateBalance(toAccount);
-
-    return toAccount;
+    return "ok";
   }
 
 
