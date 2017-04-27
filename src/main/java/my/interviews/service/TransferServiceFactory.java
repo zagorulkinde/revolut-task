@@ -1,10 +1,13 @@
 package my.interviews.service;
 
-import java.math.BigDecimal;
-
 import my.interviews.dao.Account;
 
+import java.math.BigDecimal;
+
 public class TransferServiceFactory {
+
+  private TransferServiceFactory() {
+  }
 
   public static TransferService getTransfer(Account from, Account to) {
     return new TransferMoneyService(from, to);
@@ -21,7 +24,7 @@ public class TransferServiceFactory {
     }
 
     @Override
-    public boolean transferMoney(final BigDecimal amount) {
+    public void transferMoney(final BigDecimal amount) {
       if (from.compareTo(to) >= 0) {
         synchronized (from) {
           synchronized (to) {
@@ -37,8 +40,6 @@ public class TransferServiceFactory {
         }
 
       }
-
-      return false;
     }
 
   }

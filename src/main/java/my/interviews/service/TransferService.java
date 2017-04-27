@@ -6,7 +6,7 @@ import my.interviews.dao.Account;
 
 public abstract class TransferService {
 
-  public abstract boolean transferMoney(BigDecimal amount);
+  public abstract void transferMoney(BigDecimal amount);
 
   void actualTransfer(Account from, Account to, BigDecimal transferAmount) {
     BigDecimal fromBalance = from.getBalance();
