@@ -33,6 +33,7 @@ public class TransferMoney {
         synchronized (from) {
           synchronized (to) {
             actualTransfer(from, to, amount);
+            // TODO add revert if error
             updateBalances();
           }
         }
@@ -40,6 +41,7 @@ public class TransferMoney {
         synchronized (to) {
           synchronized (from) {
             actualTransfer(from, to, amount);
+            // TODO add revert if error
             updateBalances();
           }
         }
